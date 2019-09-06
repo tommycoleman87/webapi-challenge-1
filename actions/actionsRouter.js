@@ -27,7 +27,7 @@ router.post('/', validateActionProjectID, validateAction, (req, res) => {
     })
 })
 
-router.put('/:actionid', validateActionID, validateAction, (req, res) => {
+router.put('/:actionid', validateActionID, validateAction, validateActionProjectID, (req, res) => {
     const actionId = req.params.actionid;
     const action = req.body;
     actionsDB.update(actionId, action)
