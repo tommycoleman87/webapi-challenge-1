@@ -26,6 +26,17 @@ router.put('/:id', validateProjectID, validateProject, (req, res) => {
     })
 })
 
+router.delete('/:id', validateProjectID, (req, res) => {
+    const id = req.params.id;
+    projectsDB.remove(id)
+    .then(result => {
+        res.status(200).json(result)
+    })
+    .catch(err => {
+        res.status(500).json({error: err})
+    })
+})
+
 router.post('/', validateProject, (req, res) => {
     const project = req.body;
     projectsDB.insert(project)
@@ -37,6 +48,16 @@ router.post('/', validateProject, (req, res) => {
     })
 })
 
+router.get('/:id/actions', validateProjectID, (req, res) => {
+    const id = req.params.id;
+    projectsDB.getProjectActions(id)
+    .then(result => {
+        res.status(200).json(result)
+    })
+    .catch(err => {
+        res.status(500).json({error: err})
+    })
+})
 
 function validateProjectID (req, res, next) {
     const id = req.params.id
@@ -45,7 +66,7 @@ function validateProjectID (req, res, next) {
         if(result) {
             next();
         } else {
-            res.status(400).json({message: "A project with that ID doesn't exist"})
+            res.status(404).json({message: "A project with that ID doesn't exist"})
         }
     })
     .catch(err => {
