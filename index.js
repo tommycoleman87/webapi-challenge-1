@@ -12,3 +12,12 @@ I need this code, just don't know where, perhaps should make some middleware, do
 
 Go code!
 */
+require('dotenv').config()
+const express = require('express');
+const server = require('./server');
+const port = process.env.PORT
+server.use(express.json());
+
+server.listen(port, () => {
+    console.log(`API listening on port ${port}`)
+})
